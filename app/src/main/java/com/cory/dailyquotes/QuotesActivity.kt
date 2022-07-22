@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -99,6 +100,15 @@ fun loadIntoList() {
     val dbHandlerQuotes = QuotesDBHelper(applicationContext, null)
     val cursorQuotes = dbHandlerQuotes.getAllForAPerson(intent.getStringExtra("id")!!)
     cursorQuotes!!.moveToFirst()
+
+    if (cursorQuotes.count == 0) {
+        val noQuotesStoredTextView = findViewById<TextView>(R.id.noQuotesStoredTextView)
+        noQuotesStoredTextView.visibility = View.VISIBLE
+    }
+    else {
+        val noQuotesStoredTextView = findViewById<TextView>(R.id.noQuotesStoredTextView)
+        noQuotesStoredTextView.visibility = View.GONE
+    }
 
     while(!cursorQuotes.isAfterLast) {
         val map = HashMap<String, String>()

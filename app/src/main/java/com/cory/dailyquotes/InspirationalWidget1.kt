@@ -82,7 +82,7 @@ class InspirationalWidget1 : AppWidgetProvider() {
                     "There are no quotes stored"
                 )
             }
-            remoteViews.setOnClickPendingIntent(R.id.appwidget_text, getPendingSelfIntent(context))
+            remoteViews.setOnClickPendingIntent(R.id.backgroundImage, getPendingSelfIntent(context))
             appWidgetManager.updateAppWidget(widgetId, remoteViews)
         }
     }
@@ -139,7 +139,7 @@ class InspirationalWidget1 : AppWidgetProvider() {
                 "There are no quotes stored"
             )
         }
-        views.setOnClickPendingIntent(R.id.appwidget_text, getPendingSelfIntent(context))
+        views.setOnClickPendingIntent(R.id.backgroundImage, getPendingSelfIntent(context))
     }
 
     override fun onDisabled(context: Context) { // Enter relevant functionality for when the last widget is disabled

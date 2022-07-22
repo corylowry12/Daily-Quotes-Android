@@ -5,6 +5,7 @@
 
         <item name="colorPrimary">#3DDC84</item>
         <item name="colorAccent">#30A866</item>
+        <item name="colorPrimaryDark">#30A866</item>
         <item name="android:windowContentTransitions" tools:targetApi="lollipop">true</item>
     </style>
 

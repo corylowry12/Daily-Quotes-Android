@@ -1,8 +1,10 @@
 package com.cory.dailyquotes
 
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -12,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     val homeFragment : HomeFragment = HomeFragment()
+    val settingsFragment: SettingsFragment = SettingsFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +29,16 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(homeFragment)
                     true
                 }
+                R.id.settings -> {
+                    replaceFragment(settingsFragment)
+                    true
+                }
                 else -> false
             }
         }
+
+        bottomNav.itemActiveIndicatorColor =
+            ContextCompat.getColorStateList(this, R.color.itemIndicatorColor)
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -38,9 +48,5 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container_main, fragment).addToBackStack(null)
         transaction.commit()
 
-    }
-
-    fun updatePeopleList() {
-        homeFragment.loadIntoList()
     }
 }

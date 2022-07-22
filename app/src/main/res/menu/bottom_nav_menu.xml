@@ -6,5 +6,9 @@
         android:title="People"
         android:icon="@drawable/ic_outline_person_24"
         />
-
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_outline_settings_24"
+        />
 </menu>
