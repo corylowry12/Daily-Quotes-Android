@@ -19,7 +19,7 @@ class PatchNotesFragment : Fragment() {
 
     private var newFeaturesArray = arrayOf("This is the initial release")
 
-    private var enhancementsArray = arrayOf("This is the initial release")
+    private var enhancementsArray = arrayOf("Added support for Android 13", "Added support for adaptive icons in Android 13 (Icons that will match the color fo your wallpaper")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

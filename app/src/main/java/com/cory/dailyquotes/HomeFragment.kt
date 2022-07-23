@@ -4,18 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.transition.TransitionInflater
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.database.getBlobOrNull
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
-import java.lang.IllegalStateException
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class HomeFragment : Fragment() {
 
@@ -37,6 +37,15 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val floatingActionButtonPeople = view.findViewById<FloatingActionButton>(R.id.fabPeople)
+        floatingActionButtonPeople.setOnClickListener {
+            val dialog = BottomSheetDialog(requireContext())
+            val addGradeView = layoutInflater.inflate(R.layout.add_people_bottom_sheet, null)
+
+            dialog.setContentView(addGradeView)
+            dialog.show()
+        }
 
         gridLayoutManager = GridLayoutManager(requireContext(), 1)
         peopleAdapter = PeopleAdapter(requireContext(), dataList, imageDataList)
@@ -64,7 +73,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
+   /* override fun onResume() {
         super.onResume()
        loadIntoList()
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)
@@ -73,7 +82,7 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
+    }*/
 
     fun loadIntoList() {
 

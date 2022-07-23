@@ -71,4 +71,21 @@
         android:layout_marginRight="20dp"
         android:layout_gravity="center"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabPeople"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="scroll to top"
+        app:fabSize="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        app:backgroundTint="@color/cardViewPatchNotesLightGreen"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        tools:ignore="HardcodedText"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="15dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
