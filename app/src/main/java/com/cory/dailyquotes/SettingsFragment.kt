@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentTransaction
 
 class SettingsFragment : Fragment() {
 
@@ -30,7 +31,7 @@ class SettingsFragment : Fragment() {
     private fun openFragment(fragment: Fragment) {
         val manager =
             (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-
+        manager.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         manager.replace(R.id.fragment_container_main, fragment)
             .addToBackStack(null)
         manager.commit()

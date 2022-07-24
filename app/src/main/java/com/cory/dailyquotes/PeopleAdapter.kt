@@ -54,6 +54,7 @@ class PeopleAdapter(
                 Glide.with(context)
                     .load(ContextCompat.getDrawable(context, R.drawable.ic_outline_person_24))
                     .dontAnimate()
+                    .dontTransform()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(personImage)
             }

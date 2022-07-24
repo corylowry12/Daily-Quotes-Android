@@ -18,6 +18,7 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     + COLUMN_ID + " INTEGER PRIMARY KEY, "
                     + COLUMN_PERSON_ID + " TEXT, "
                     + COLUMN_QUOTE + " TEXT, "
+                    + COLUMN_QUOTE_CATEGORY + " TEXT, "
                     + COLUMN_QUOTE_DATE + " TEXT );")
     }
 
@@ -34,6 +35,11 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         }
         try {
             db.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_QUOTE_DATE TEXT DEFAULT \"\" NOT NULL")
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        try {
+            db.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_QUOTE_CATEGORY TEXT DEFAULT \"\" NOT NULL")
         } catch (e: SQLException) {
             e.printStackTrace()
         }
@@ -157,7 +163,7 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }*/
 
     companion object {
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
         const val DATABASE_NAME = "quotes.db"
         const val TABLE_NAME = "people"
 
@@ -165,5 +171,6 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val COLUMN_PERSON_ID = "personID"
         const val COLUMN_QUOTE = "quote"
         const val COLUMN_QUOTE_DATE = "quoteDate"
+        const val COLUMN_QUOTE_CATEGORY = "quoteCategory"
     }
 }

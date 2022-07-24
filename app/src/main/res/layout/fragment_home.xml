@@ -22,6 +22,7 @@
             android:layout_height="match_parent"
             app:expandedTitleMarginBottom="28dp"
             app:titleCollapseMode="scale"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <com.google.android.material.appbar.MaterialToolbar
@@ -33,8 +34,7 @@
                 android:elevation="0dp"
                 app:layout_collapseMode="pin"
                 app:title="People"
-                app:titleCentered="true"
-                app:menu="@menu/menu_main" />
+                app:titleCentered="true" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -72,7 +72,7 @@
         android:layout_gravity="center"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabPeople"
+        android:id="@+id/fabAddPeopleOrQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -86,6 +86,7 @@
         app:backgroundTint="@color/cardViewPatchNotesLightGreen"
         app:srcCompat="@drawable/ic_baseline_add_24"
         tools:ignore="HardcodedText"
+        app:tint="@color/black"
         android:layout_gravity="bottom|end"
         android:layout_marginRight="15dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

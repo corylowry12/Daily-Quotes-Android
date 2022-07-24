@@ -6,15 +6,22 @@ import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.textfield.TextInputEditText
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
 class QuotesActivity : AppCompatActivity() {
 
@@ -24,30 +31,13 @@ class QuotesActivity : AppCompatActivity() {
 
     lateinit var image: Bitmap
 
-    override fun onResume() {
-        super.onResume()
-        loadIntoList()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quotes)
 
+        val appBarQuotes = findViewById<AppBarLayout>(R.id.appBarLayoutQuotes)
         val materialToolbarQuotes = findViewById<MaterialToolbar>(R.id.materialToolBarQuotes)
-        materialToolbarQuotes.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.addPeople -> {
-                    val addQuoteIntent = Intent(this, AddQuoteActivity::class.java)
-                    addQuoteIntent.putExtra("personID", intent.getStringExtra("id"))
-                    startActivity(addQuoteIntent)
-
-                    //QuotesDBHelper(this, null).insertRow(intent.getStringExtra("id").toString(), "lorem", Date().toString())
-                    //loadIntoList()
-                    true
-                }
-                else -> false
-            }
-        }
+        val mCollapsingToolbar = findViewById<CollapsingToolbarLayout>(R.id.collapsingToolBarQuotes)
 
         materialToolbarQuotes.setNavigationOnClickListener {
             finishAfterTransition()
@@ -55,6 +45,33 @@ class QuotesActivity : AppCompatActivity() {
 
         gridLayoutManager = GridLayoutManager(this, 1)
         quotesAdapter = QuotesAdapter(this, dataList)
+
+        val addQuotesFAB = findViewById<FloatingActionButton>(R.id.fabAddQuote)
+        addQuotesFAB.setOnClickListener {
+            val dialog = BottomSheetDialog(this)
+            val addView = layoutInflater.inflate(R.layout.add_quotes_bottom_sheet_layout, null)
+            dialog.setContentView(addView)
+
+            val quoteInputEditText = addView.findViewById<TextInputEditText>(R.id.quote)
+            val addQuoteButton = addView.findViewById<Button>(R.id.addQuoteButton)
+            val cancelButton = addView.findViewById<Button>(R.id.cancelButton)
+
+            addQuoteButton.setOnClickListener {
+                if (quoteInputEditText.text.toString() == "") {
+                    Toast.makeText(this, "Quote required", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    QuotesDBHelper(this, null).insertRow(intent.getStringExtra("id").toString(), quoteInputEditText.text.toString(), Date().toString())
+                    loadIntoList()
+                    dialog.dismiss()
+                }
+            }
+            cancelButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
 
         loadIntoList()
     }

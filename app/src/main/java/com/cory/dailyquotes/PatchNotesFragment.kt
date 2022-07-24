@@ -15,11 +15,15 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class PatchNotesFragment : Fragment() {
 
-    private var bugFixesArray = arrayOf("This is the initial release")
+    private var bugFixesArray = arrayOf("Fixed issue with widget updating too frequently", "Fixed issue where images would flicker if you left home tab and came back", "Fixed issue where the items for classes were the wrong color",
+                                        "Fixed issue where the quotes list item were the wrong color", "Fixed issue where you could enter an empty quote", "Fixed issue with the icon being slightly blurry for a person if there was no pictures stored")
 
-    private var newFeaturesArray = arrayOf("This is the initial release")
+    private var newFeaturesArray = arrayOf("Added the ability to add quotes from the home screen")
 
-    private var enhancementsArray = arrayOf("Added support for Android 13", "Added support for adaptive icons in Android 13 (Icons that will match the color fo your wallpaper")
+    private var enhancementsArray = arrayOf("Added support for Android 13", "Added support for adaptive icons in Android 13 (Icons that will match the color of your wallpaper",
+                                            "Can now add items via a fab in each view", "Increased the character limit for quotes", "Text box will no longer capitalize every word when entering a quote",
+                                            "Performance improvements when loading the quotes view", "Performance improvements when loading the people view", "Added a fab to each view to add items instead of the menu at the top",
+                                            "Added an animation when opening the patch notes in the settings", "Toolbars will now be green when they are collapsed")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
