@@ -7,18 +7,25 @@
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/drawable/widgetimageviewbackground.xml" value="0.1725" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/activity_add_person.xml" value="0.4" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/activity_add_quote.xml" value="0.4" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/activity_main.xml" value="0.20677083333333332" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/activity_quotes.xml" value="0.21041666666666667" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/add_a_person_bottom_sheet_layout.xml" value="0.19947916666666668" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/add_people_bottom_sheet.xml" value="0.4" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/add_quotes_bottom_sheet_layout.xml" value="0.209375" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/add_quotes_home_bottom_sheet_layout.xml" value="0.19947916666666668" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fetch_quotes_list_item.xml" value="0.20625" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fetched_quote_bottom_sheet.xml" value="0.20885416666666667" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fragment_fetch_quotes.xml" value="0.4291799787007455" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fragment_home.xml" value="0.4" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fragment_patch_notes.xml" value="0.4" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/fragment_settings.xml" value="0.21041666666666667" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/inspirational_widget1.xml" value="0.1" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/list_item.xml" value="0.20729166666666668" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/patch_notes_list_row.xml" value="0.20052083333333334" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/people_list_item.xml" value="0.20052083333333334" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/people_options_bottom_sheet_layout.xml" value="0.2" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/quotes_list_item.xml" value="0.20052083333333334" />
+        <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/layout/quotes_options_bottom_sheet_layout.xml" value="0.20833333333333334" />
         <entry key="..\:/Daily Quotes/Daily-Quotes-Android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2175" />
       </map>
     </option>

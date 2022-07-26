@@ -1,4 +1,4 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentTransaction
+import com.cory.dailyquotes.R
 
 class SettingsFragment : Fragment() {
 
@@ -21,6 +22,11 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val internetConstraint = view.findViewById<ConstraintLayout>(R.id.constraintNetwork)
+        internetConstraint.setOnClickListener {
+            openFragment(FetchQuotesFragment())
+        }
 
         val patchNotesConstraint = view.findViewById<ConstraintLayout>(R.id.constraintPatchNotes)
         patchNotesConstraint.setOnClickListener {

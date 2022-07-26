@@ -1,4 +1,4 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.DB
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,6 +7,7 @@ import android.database.DatabaseUtils
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+
 
 class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -17,6 +18,8 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                     + COLUMN_ID + " INTEGER PRIMARY KEY, "
                     + COLUMN_NAME + " TEXT, "
                     + COLUMN_BIO + " TEXT, "
+                    + COLUMN_LOCATION + " TEXT, "
+                    + COLUMN_FETCHED_IMAGE + " TEXT, "
                     + COLUMN_IMAGE + " BLOB );")
     }
 
@@ -36,6 +39,16 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         } catch (e: SQLException) {
             e.printStackTrace()
         }
+        try {
+            db.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_LOCATION TEXT DEFAULT \"\" NOT NULL")
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
+        try {
+            db.execSQL("ALTER TABLE $TABLE_NAME ADD COLUMN $COLUMN_FETCHED_IMAGE TEXT DEFAULT \"\" NOT NULL")
+        } catch (e: SQLException) {
+            e.printStackTrace()
+        }
     }
 
     override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -52,10 +65,49 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         values.put(COLUMN_NAME, personName)
         values.put(COLUMN_BIO, personBio)
         values.put(COLUMN_IMAGE, personImage)
+        values.put(COLUMN_LOCATION, "entered")
 
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
         db.close()
+    }
+
+    fun insertFetchedRow(
+        personName: String,
+        personBio: String,
+        personImage: String
+    ) {
+        val values = ContentValues()
+        values.put(COLUMN_NAME, personName)
+        values.put(COLUMN_BIO, personBio)
+        values.put(COLUMN_FETCHED_IMAGE, personImage)
+        values.put(COLUMN_LOCATION, "internet")
+
+        val db = this.writableDatabase
+        db.insert(TABLE_NAME, null, values)
+        db.close()
+    }
+
+    fun checkIfExists(personName: String): Boolean {
+        val db = this.writableDatabase
+        var cursor: Cursor? = null
+        val checkQuery =
+            "SELECT " + COLUMN_NAME + " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + "= '" + personName + "'"
+        cursor = db.rawQuery(checkQuery, null)
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    fun getPersonID(personName: String): String {
+        val db = this.writableDatabase
+        var cursor: Cursor? = null
+        val checkQuery =
+            "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_NAME + "= '" + personName + "'"
+        cursor = db.rawQuery(checkQuery, null)
+        //cursor.close()
+        cursor!!.moveToFirst()
+        return cursor.getString(cursor.getColumnIndex(COLUMN_ID))
     }
 
     /*fun insertRestoreRow(
@@ -133,7 +185,9 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 COLUMN_ID,
                 COLUMN_NAME,
                 COLUMN_BIO,
-                COLUMN_IMAGE
+                COLUMN_IMAGE,
+                COLUMN_LOCATION,
+                COLUMN_FETCHED_IMAGE
             ),
             null,
             null,
@@ -151,7 +205,7 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     }
 
     companion object {
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 3
         const val DATABASE_NAME = "people.db"
         const val TABLE_NAME = "people"
 
@@ -159,5 +213,7 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val COLUMN_NAME = "personName"
         const val COLUMN_BIO = "personBio"
         const val COLUMN_IMAGE = "personImage"
+        const val COLUMN_FETCHED_IMAGE = "personFetchedImage"
+        const val COLUMN_LOCATION = "personLocation"
     }
 }

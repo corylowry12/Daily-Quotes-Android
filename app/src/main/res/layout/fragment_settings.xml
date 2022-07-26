@@ -65,6 +65,81 @@
                 app:cardBackgroundColor="@color/cardViewLightGreen">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintNetwork"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:foreground="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/networkImage"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/ic_baseline_language_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription"
+                        app:tint="@android:color/black"
+                        android:layout_marginLeft="12dp" />
+
+                    <TextView
+                        android:id="@+id/networkHeading"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="12dp"
+                        android:paddingTop="4dp"
+                        android:paddingEnd="5dp"
+                        android:text="Fetch Quotes"
+                        android:textSize="18sp"
+                        android:textColor="#000000"
+                        app:layout_constraintEnd_toStartOf="@id/networkChevron"
+                        app:layout_constraintStart_toEndOf="@id/networkImage"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/networkHeading"
+                        android:layout_alignStart="@id/networkHeading"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="4dp"
+                        android:text="Fetch quotes from the internet"
+                        android:textColor="#000000"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@id/networkChevron"
+                        app:layout_constraintStart_toEndOf="@id/networkImage"
+                        app:layout_constraintTop_toBottomOf="@id/networkHeading" />
+
+                    <ImageView
+                        android:id="@+id/networkChevron"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="10dp"
+                        android:src="@drawable/ic_baseline_chevron_right_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                style="?attr/materialCardViewElevatedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="28dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@color/cardViewLightGreen">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintPatchNotes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

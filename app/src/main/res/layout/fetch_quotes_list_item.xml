@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:id="@+id/cardViewFetchedQuoteItem"
+    style="?attr/materialCardViewElevatedStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="5dp"
+    app:cardCornerRadius="28dp"
+    app:cardPreventCornerOverlap="false"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/cardViewLightGreen"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/personItemConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingBottom="20dp">
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Elevated"
+            app:cardCornerRadius="12dp"
+            android:id="@+id/personImageCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:transitionName="people_card_view">
+            <ImageView
+                android:id="@+id/personImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:transitionName="people_image"
+                android:scaleType="centerCrop"/>
+        </com.google.android.material.card.MaterialCardView>
+        <TextView
+            android:id="@+id/row_person_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Person Name"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/personImageCardView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/chevronImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="HardcodedText"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:transitionName="people_name"/>
+
+        <ImageView
+            android:id="@+id/chevronImage"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_chevron_right_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="10dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

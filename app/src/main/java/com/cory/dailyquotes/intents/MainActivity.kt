@@ -1,15 +1,20 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.intents
 
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.navigation.findNavController
+import com.cory.dailyquotes.R
+import com.cory.dailyquotes.fragments.HomeFragment
+import com.cory.dailyquotes.fragments.SettingsFragment
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +24,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val context = this
+        GlobalScope.launch(Dispatchers.Main) {
+            MobileAds.initialize(context)
+            val adView = AdView(context)
+            adView.adUnitId = "ca-app-pub-4546055219731501/6930432673"
+            val mAdView = findViewById<AdView>(R.id.adView)
+            val adRequest = AdRequest.Builder().build()
+            mAdView.loadAd(adRequest)
+        }
 
         replaceFragment(homeFragment)
 
@@ -48,5 +63,9 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container_main, fragment).addToBackStack(null)
         transaction.commit()
 
+    }
+
+    fun peopleTextViewVisibility() {
+        homeFragment.textViewVisibility()
     }
 }

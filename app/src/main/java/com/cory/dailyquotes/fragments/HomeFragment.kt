@@ -1,7 +1,6 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -18,7 +17,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.MaterialToolbar
+import com.cory.dailyquotes.DB.PeopleDBHelper
+import com.cory.dailyquotes.DB.QuotesDBHelper
+import com.cory.dailyquotes.R
+import com.cory.dailyquotes.adapters.PeopleAdapter
+import com.cory.dailyquotes.classes.ManagePermissions
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -71,6 +74,7 @@ class HomeFragment : Fragment() {
                 val addAPersonDialog = BottomSheetDialog(requireContext())
                 val addPersonView = layoutInflater.inflate(R.layout.add_a_person_bottom_sheet_layout, null)
                 addAPersonDialog.setContentView(addPersonView)
+                addAPersonDialog.setCancelable(false)
 
                 val nameTextInputEditText = addPersonView.findViewById<TextInputEditText>(R.id.name)
                 val bioTextInputEditText = addPersonView.findViewById<TextInputEditText>(R.id.bio)
@@ -105,14 +109,18 @@ class HomeFragment : Fragment() {
 
                     if (nameTextInputEditText.text?.toString() == "") {
                         Toast.makeText(requireContext(), "Name is required", Toast.LENGTH_SHORT).show()
-                    } else {
+                    }
+                    else if (PeopleDBHelper(requireContext(), null).checkIfExists(nameTextInputEditText.text.toString().trim())) {
+                        Toast.makeText(requireContext(), "That name already exists", Toast.LENGTH_SHORT).show()
+                    }
+                        else {
                         try {
                             val stream = ByteArrayOutputStream()
                             image.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                             val image2 = stream.toByteArray()
                             PeopleDBHelper(requireContext(), null).insertRow(
-                                nameTextInputEditText.text.toString(),
-                                bioTextInputEditText.text.toString(),
+                                nameTextInputEditText.text.toString().trim(),
+                                bioTextInputEditText.text.toString().trim(),
                                 image2
                             )
                         } catch (e: Exception) {
@@ -133,6 +141,13 @@ class HomeFragment : Fragment() {
 
                 addAPersonDialog.show()
                 dialog.dismiss()
+            }
+
+            if (PeopleDBHelper(requireContext(), null).getCount() == 0) {
+                addAQuoteConstraintLayout.isEnabled = false
+                addAQuoteConstraintLayout.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                    R.color.disabledConstrainLayoutBackground
+                ))
             }
             addAQuoteConstraintLayout.setOnClickListener {
 
@@ -161,6 +176,7 @@ class HomeFragment : Fragment() {
                 val addAQuoteDialog = BottomSheetDialog(requireContext())
                 val addQuoteView = layoutInflater.inflate(R.layout.add_quotes_home_bottom_sheet_layout, null)
                 addAQuoteDialog.setContentView(addQuoteView)
+                addAQuoteDialog.setCancelable(false)
 
                 val addQuoteButton = addQuoteView.findViewById<Button>(R.id.addQuoteButton)
                 val quoteInputEditText = addQuoteView.findViewById<TextInputEditText>(R.id.quote)
@@ -177,11 +193,14 @@ class HomeFragment : Fragment() {
                 peopleMenu.onItemClickListener = AdapterView.OnItemClickListener { p0, p1, p2, p3 -> position = p2 }
 
                 addQuoteButton.setOnClickListener {
-                    if (quoteInputEditText.text.toString() == "") {
+                    if (quoteInputEditText.text.toString().trim() == "" || quoteInputEditText.text == null) {
                         Toast.makeText(requireContext(), "A quote is required", Toast.LENGTH_SHORT).show()
                     }
+                    if (QuotesDBHelper(requireContext(), null).checkIfExistsForASpecificPerson(quoteInputEditText.text.toString().trim().replace("'", "''"), peopleIDArray.elementAt(position))) {
+                        Toast.makeText(requireContext(), "Quote already exists", Toast.LENGTH_SHORT).show()
+                    }
                     else {
-                        QuotesDBHelper(requireContext(), null).insertRow(peopleIDArray.elementAt(position), quoteInputEditText.text.toString(), Date().toString())
+                        QuotesDBHelper(requireContext(), null).insertRow(peopleIDArray.elementAt(position), quoteInputEditText.text.toString().trim(), Date().toString())
                         addAQuoteDialog.dismiss()
                     }
                 }
@@ -200,23 +219,7 @@ class HomeFragment : Fragment() {
         peopleAdapter = PeopleAdapter(requireContext(), dataList, imageDataList)
 
         loadIntoList()
-
-        val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)
-        recyclerView?.setOnScrollChangeListener { view, i, i2, i3, i4 ->
-            recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()!!
-        }
     }
-
-   /* override fun onResume() {
-        super.onResume()
-       loadIntoList()
-        val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)
-        try {
-            recyclerView?.layoutManager?.onRestoreInstanceState(recyclerViewState)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }*/
 
     fun loadIntoList() {
 
@@ -240,67 +243,52 @@ class HomeFragment : Fragment() {
         while (!cursor!!.isAfterLast) {
             val map = HashMap<String, String>()
             val imageMap = HashMap<String, ByteArray>()
-            map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
+            if (cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION)) != "internet") {
+                map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
 
-            map["personName"] =
-                cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
-            try {
-                imageMap["personImage"] =
-                    cursor.getBlob(cursor.getColumnIndex(PeopleDBHelper.COLUMN_IMAGE))
-            } catch (e : Exception) {
-                e.printStackTrace()
-                imageMap["personImage"] = ByteArray(0)
+                map["personName"] =
+                    cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
+                map["location"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION))
+                try {
+                    imageMap["personImage"] =
+                        cursor.getBlob(cursor.getColumnIndex(PeopleDBHelper.COLUMN_IMAGE))
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    imageMap["personImage"] = ByteArray(0)
+                }
+                dataList.add(map)
+                imageDataList.add(imageMap)
             }
-            dataList.add(map)
-            imageDataList.add(imageMap)
+            else {
+                map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
 
+                map["personName"] =
+                    cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
+                map["personImage"] =
+                        cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_FETCHED_IMAGE))
+                map["location"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION))
+                imageMap["personImage"] = ByteArray(0)
+                imageDataList.add(imageMap)
+                dataList.add(map)
+            }
             cursor.moveToNext()
         }
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)
-        try {
-            gridLayoutManager = GridLayoutManager(requireContext(), 1)
-            recyclerView?.layoutManager = gridLayoutManager
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.adapter = peopleAdapter
     }
 
-    fun reloadIntoList(context: Context) {
-        val dbHandler = PeopleDBHelper(context, null)
+    fun textViewVisibility() {
+        val dbHandler = PeopleDBHelper(requireContext(), null)
 
-        dataList.clear()
+        if (dbHandler.getCount() > 0) {
+            val noClassesStoredTextView = activity?.findViewById<TextView>(R.id.noPeopleStoredTextView)
+            noClassesStoredTextView?.visibility = View.GONE
+        } else {
+            val noClassesStoredTextView = activity?.findViewById<TextView>(R.id.noPeopleStoredTextView)
+            noClassesStoredTextView?.visibility = View.VISIBLE
 
-        val cursor = dbHandler.getAllRow()
-        cursor?.moveToFirst()
-
-        while (!cursor!!.isAfterLast) {
-            val map = HashMap<String, String>()
-            val imageMap = HashMap<String, ByteArray>()
-            map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
-
-            map["personName"] =
-                cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
-            try {
-                imageMap["personImage"] =
-                    cursor.getBlob(cursor.getColumnIndex(PeopleDBHelper.COLUMN_IMAGE))
-            } catch (e : Exception) {
-                e.printStackTrace()
-                imageMap["personImage"] = ByteArray(0)
-            }
-            dataList.add(map)
-            imageDataList.add(imageMap)
-
-            cursor.moveToNext()
         }
-        val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)
-        try {
-            gridLayoutManager = GridLayoutManager(requireContext(), 1)
-            recyclerView?.layoutManager = gridLayoutManager
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        recyclerView?.adapter = peopleAdapter
     }
 
     val showImagePicker = registerForActivityResult(

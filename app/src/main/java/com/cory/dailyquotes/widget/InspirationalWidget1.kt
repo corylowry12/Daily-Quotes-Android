@@ -1,4 +1,4 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.widget
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -10,11 +10,13 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
-import android.os.SystemClock
 import android.widget.RemoteViews
-import android.widget.Toast
+import com.cory.dailyquotes.intents.MainActivity
+import com.cory.dailyquotes.DB.PeopleDBHelper
+import com.cory.dailyquotes.DB.QuotesDBHelper
+import com.cory.dailyquotes.R
+import com.cory.dailyquotes.classes.AppWidgetAlarm
 import java.util.*
-import kotlin.random.Random
 
 
 /**
@@ -48,7 +50,8 @@ class InspirationalWidget1 : AppWidgetProvider() {
                 val cursor: Cursor = QuotesDBHelper(context, null).getRow(randomNumber.toString())
                 cursor.moveToFirst()
 
-                val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(QuotesDBHelper.COLUMN_PERSON_ID)))
+                val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(
+                    QuotesDBHelper.COLUMN_PERSON_ID)))
                 cursorPeople.moveToFirst()
                 val people = cursorPeople.getString(cursorPeople.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
 
@@ -61,10 +64,11 @@ class InspirationalWidget1 : AppWidgetProvider() {
                 )
             }
             else if (count.count == 1) {
-                val cursor: Cursor = QuotesDBHelper(context, null).getRow("1")
+                val cursor: Cursor = QuotesDBHelper(context, null).getAllRow()!!
                 cursor.moveToFirst()
 
-                val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(QuotesDBHelper.COLUMN_PERSON_ID)))
+                val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(
+                    QuotesDBHelper.COLUMN_PERSON_ID)))
                 cursorPeople.moveToFirst()
                 val people = cursorPeople.getString(cursorPeople.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
 
@@ -106,7 +110,8 @@ class InspirationalWidget1 : AppWidgetProvider() {
             val randomNumber = (1..count.count).random()
             val cursor: Cursor = QuotesDBHelper(context, null).getRow(randomNumber.toString())
             cursor.moveToFirst()
-            val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(QuotesDBHelper.COLUMN_PERSON_ID)))
+            val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(
+                QuotesDBHelper.COLUMN_PERSON_ID)))
             cursorPeople.moveToFirst()
             val people = cursorPeople.getString(cursorPeople.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
 
@@ -119,9 +124,10 @@ class InspirationalWidget1 : AppWidgetProvider() {
             )
         }
         else if (count.count == 1) {
-            val cursor: Cursor = QuotesDBHelper(context, null).getRow("1")
+            val cursor: Cursor = QuotesDBHelper(context, null).getAllRow()!!
             cursor.moveToFirst()
-            val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(QuotesDBHelper.COLUMN_PERSON_ID)))
+            val cursorPeople = PeopleDBHelper(context, null).getRow(cursor.getString(cursor.getColumnIndex(
+                QuotesDBHelper.COLUMN_PERSON_ID)))
             cursorPeople.moveToFirst()
             val people = cursorPeople.getString(cursorPeople.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
 

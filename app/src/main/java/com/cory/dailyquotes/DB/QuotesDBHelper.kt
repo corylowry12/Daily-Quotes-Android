@@ -1,4 +1,4 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.DB
 
 import android.content.ContentValues
 import android.content.Context
@@ -7,7 +7,6 @@ import android.database.DatabaseUtils
 import android.database.SQLException
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.widget.Toast
 
 class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -63,6 +62,28 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
         db.close()
+    }
+
+    fun checkIfExists(quote: String): Boolean {
+        val db = this.writableDatabase
+        var cursor: Cursor? = null
+        val checkQuery =
+            "SELECT " + COLUMN_QUOTE + " FROM " + TABLE_NAME + " WHERE " + COLUMN_QUOTE + "= '" + quote
+        cursor = db.rawQuery(checkQuery, null)
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    fun checkIfExistsForASpecificPerson(quote: String, personID: String): Boolean {
+        val db = this.writableDatabase
+        var cursor: Cursor? = null
+        val checkQuery =
+            "SELECT  * FROM $TABLE_NAME WHERE $COLUMN_QUOTE = '$quote' AND $COLUMN_PERSON_ID = '$personID'"
+        cursor = db.rawQuery(checkQuery, null)
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
     }
 
     /*fun insertRestoreRow(
@@ -121,6 +142,12 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
     }
 
+    fun deleteAllForASpecificPerson(row_id: String) {
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME, "$COLUMN_PERSON_ID = ?", arrayOf(row_id))
+        db.close()
+    }
+
     fun getRow(row_id: String): Cursor {
 
         val db = this.writableDatabase
@@ -155,12 +182,12 @@ class QuotesDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         )
     }
 
-    /*fun deleteAll() {
+    fun deleteAll() {
         val db = this.writableDatabase
         db.delete(TABLE_NAME, null, null)
         db.execSQL("delete from $TABLE_NAME")
         db.close()
-    }*/
+    }
 
     companion object {
         const val DATABASE_VERSION = 2

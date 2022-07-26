@@ -1,4 +1,4 @@
-package com.cory.dailyquotes
+package com.cory.dailyquotes.classes
 
 import android.content.BroadcastReceiver
 import android.content.Context

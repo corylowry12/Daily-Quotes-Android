@@ -8,4 +8,6 @@
     <color name="itemIndicatorColor">#30A866</color>
 
     <color name="patchNotesBadgeColor">#807F7F</color>
+
+    <color name="disabledConstrainLayoutBackground">#BABABA</color>
 </resources>
