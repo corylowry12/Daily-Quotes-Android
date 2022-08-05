@@ -61,7 +61,7 @@ class PeopleAdapter(
 
         val personImage = holder.itemView.findViewById<ImageView>(R.id.personImage)
 
-        if (dataItem["location"] != "internet") {
+        //if (dataItem["location"] != "internet") {
 
             if (!imageDataItem["personImage"].contentEquals(ByteArray(0))) {
                 val image = BitmapFactory.decodeByteArray(
@@ -83,7 +83,7 @@ class PeopleAdapter(
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(personImage)
             }
-        } else {
+        /*} else {
 
             Glide.with(context)
                 .load(dataItem["personImage"])
@@ -92,7 +92,7 @@ class PeopleAdapter(
                 .error(ContextCompat.getDrawable(context, R.drawable.ic_outline_person_24))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(personImage)
-        }
+        }*/
 
         holder.itemView.findViewById<ConstraintLayout>(R.id.personItemConstraintLayout)
             .setOnClickListener {
@@ -106,11 +106,13 @@ class PeopleAdapter(
                         0,
                         imageDataItem["personImage"]!!.size
                     )
-                   // val resized = Bitmap.createScaledBitmap(image, 200, 200, true)
-                    image.compress(Bitmap.CompressFormat.JPEG, 80, bs)
-                    quotesIntent.putExtra("image", bs.toByteArray())
-                }
-                else {
+
+                    val bitmap = personImage.drawable.toBitmap(400, 400)
+                    val stream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                    quotesIntent.putExtra("image", stream.toByteArray())
+
+                } else {
                     val bitmap = personImage.drawable.toBitmap(200, 200)
                     val stream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -149,6 +151,15 @@ class PeopleAdapter(
                 val deleteAllConstraint =
                     optionsView.findViewById<ConstraintLayout>(R.id.deleteAllPeopleConstraintlayout)
 
+                editConstraint.visibility = View.GONE
+
+                /*if (dataItem["location"] == "internet") {
+                    editConstraint.visibility = View.GONE
+                }
+                else {
+                    editConstraint.visibility = View.VISIBLE
+                }*/
+
                 editConstraint.setOnClickListener {
 
                 }
@@ -160,6 +171,7 @@ class PeopleAdapter(
                         QuotesDBHelper(context, null).deleteRow(dataItem["id"].toString())
                         PeopleDBHelper(context, null).deleteRow(dataItem["id"].toString())
                         dataList.removeAt(holder.adapterPosition)
+                        imageDataList.removeAt(holder.adapterPosition)
                         notifyItemRemoved(holder.adapterPosition)
                         dialog.dismiss()
 
@@ -180,6 +192,7 @@ class PeopleAdapter(
                         PeopleDBHelper(context, null).deleteAll()
                         notifyItemRangeRemoved(0, dataList.count())
                         dataList.clear()
+                        imageDataList.clear()
                         dialog.dismiss()
 
                         val runnable = Runnable {

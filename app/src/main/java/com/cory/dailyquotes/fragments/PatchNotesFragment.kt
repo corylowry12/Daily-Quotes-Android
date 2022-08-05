@@ -22,7 +22,7 @@ class PatchNotesFragment : Fragment() {
                                         "Fixed issue where the quotes list item were the wrong color", "Fixed issue where you could enter an empty quote", "Fixed issue with the icon being slightly blurry for a person if there was no pictures stored",
                                         "Some fixes when setting up widget if there was only one person and one quote stored", "Fixed issue where you could have extra spaces at the end when adding quotes",
                                         "Fixed issue where you could have extra spaces at the end of a persons name", "Fixed issue where you could have extra spaces at the end of a persons bio",
-                                        "Fixed issue where you could store multiple quotes that were exactly the same for the same person")
+                                        "Fixed issue where you could store multiple quotes that were exactly the same for the same person", "Fixed some performance issues when setting large images as the picture for a specific person")
 
     private var newFeaturesArray = arrayOf("Added the ability to add quotes from the home screen", "Added the ability to delete quotes", "Added the ability to delete people",
                                             "Added the ability to fetch quotes from the internet")
@@ -31,7 +31,7 @@ class PatchNotesFragment : Fragment() {
                                             "Can now add items via a fab in each view", "Increased the character limit for quotes", "Text box will no longer capitalize every word when entering a quote",
                                             "Performance improvements when loading the quotes view", "Performance improvements when loading the people view", "Added a fab to each view to add items instead of the menu at the top",
                                             "Added an animation when opening the patch notes in the settings", "Toolbars will now be green when they are collapsed",
-                                            "If you scroll in the quotes view, it will now show the persons name when the tool bar is collapsed")
+                                            "If you scroll in the quotes view, it will now show the persons name when the tool bar is collapsed", "All images will now be scaled down to a 200x200 resolution to prevent the app from taking a ton of space")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -11,6 +11,7 @@ import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
+import android.widget.Toast
 import com.cory.dailyquotes.intents.MainActivity
 import com.cory.dailyquotes.DB.PeopleDBHelper
 import com.cory.dailyquotes.DB.QuotesDBHelper
@@ -77,7 +78,7 @@ class InspirationalWidget1 : AppWidgetProvider() {
                 // Set the text with the current time.
                 remoteViews.setTextViewText(
                     R.id.appwidget_text,
-                    randomQuote.toString()
+                    randomQuote
                 )
             }
             else {

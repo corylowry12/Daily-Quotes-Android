@@ -1,8 +1,12 @@
 package com.cory.dailyquotes.fragments
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,7 +63,13 @@ class FetchQuotesFragment : Fragment() {
             activity?.supportFragmentManager?.popBackStack()
         }
 
-        run("https://zenquotes.io/api/quotes/")
+        if (isOnline(requireContext())) {
+            run("https://zenquotes.io/api/quotes/")
+        }
+        else {
+            Toast.makeText(requireContext(), "Check data connection", Toast.LENGTH_SHORT).show()
+            activity?.supportFragmentManager?.popBackStack()
+        }
 
         var quotesNotAdded = 0
 
@@ -114,7 +124,8 @@ class FetchQuotesFragment : Fragment() {
                                     PeopleDBHelper(requireContext(), null).insertRow(
                                         filteredDataList[i]["a"].toString(),
                                         "",
-                                        image2
+                                        image2,
+                                        "internet"
                                     )
                                     QuotesDBHelper(
                                         requireContext(),
@@ -131,7 +142,8 @@ class FetchQuotesFragment : Fragment() {
                                     PeopleDBHelper(requireContext(), null).insertRow(
                                         filteredDataList[i]["a"].toString(),
                                         "",
-                                        ByteArray(0)
+                                        ByteArray(0),
+                                        "internet"
                                     )
                                     QuotesDBHelper(
                                         requireContext(),
@@ -166,7 +178,8 @@ class FetchQuotesFragment : Fragment() {
                             PeopleDBHelper(requireContext(), null).insertRow(
                                 filteredDataList[i]["a"].toString(),
                                 "",
-                                image2
+                                image2,
+                                "internet"
                             )
                             QuotesDBHelper(
                                 requireContext(),
@@ -183,7 +196,8 @@ class FetchQuotesFragment : Fragment() {
                             PeopleDBHelper(requireContext(), null).insertRow(
                                 filteredDataList[i]["a"].toString(),
                                 "",
-                                ByteArray(0)
+                                ByteArray(0),
+                                "internet"
                             )
                             QuotesDBHelper(
                                 requireContext(),
@@ -265,6 +279,26 @@ class FetchQuotesFragment : Fragment() {
     ): Boolean {
         for (collection in collections) {
             if (collection.contains(value)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
                 return true
             }
         }

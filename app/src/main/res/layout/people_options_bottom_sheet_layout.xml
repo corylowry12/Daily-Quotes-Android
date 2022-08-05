@@ -41,8 +41,7 @@
         tools:targetApi="m"
         tools:ignore="UnusedAttribute"
         android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:visibility="gone">
+        android:paddingTop="4dp">
 
 
         <androidx.cardview.widget.CardView
@@ -86,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        app:layout_constraintTop_toBottomOf="@id/headingTextView"
+        app:layout_constraintTop_toBottomOf="@id/editPersonConstraint"
         app:layout_constraintStart_toStartOf="parent"
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"

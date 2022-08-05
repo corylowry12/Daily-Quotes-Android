@@ -27,6 +27,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import com.google.android.material.textfield.TextInputEditText
 import java.io.ByteArrayOutputStream
+import java.lang.NullPointerException
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -114,25 +115,30 @@ class HomeFragment : Fragment() {
                         Toast.makeText(requireContext(), "That name already exists", Toast.LENGTH_SHORT).show()
                     }
                         else {
+                            recyclerViewState = view.findViewById<RecyclerView>(R.id.peopleRecyclerView).layoutManager!!.onSaveInstanceState()!!
                         try {
                             val stream = ByteArrayOutputStream()
-                            image.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                            val resized = Bitmap.createScaledBitmap(image, 200, 200, false)
+                            resized.compress(Bitmap.CompressFormat.JPEG, 100, stream)
                             val image2 = stream.toByteArray()
                             PeopleDBHelper(requireContext(), null).insertRow(
                                 nameTextInputEditText.text.toString().trim(),
                                 bioTextInputEditText.text.toString().trim(),
-                                image2
+                                image2,
+                                "entered"
                             )
                         } catch (e: Exception) {
                             e.printStackTrace()
                             PeopleDBHelper(requireContext(), null).insertRow(
                                 nameTextInputEditText.text.toString(),
                                 bioTextInputEditText.text.toString(),
-                                ByteArray(0)
+                                ByteArray(0),
+                                "entered"
                             )
                         }
                         addAPersonDialog.dismiss()
                         loadIntoList()
+                        view.findViewById<RecyclerView>(R.id.peopleRecyclerView).layoutManager!!.onRestoreInstanceState(recyclerViewState)
                     }
                 }
                 cancelButton.setOnClickListener {
@@ -243,7 +249,7 @@ class HomeFragment : Fragment() {
         while (!cursor!!.isAfterLast) {
             val map = HashMap<String, String>()
             val imageMap = HashMap<String, ByteArray>()
-            if (cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION)) != "internet") {
+           // if (cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION)) != "internet") {
                 map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
 
                 map["personName"] =
@@ -258,19 +264,21 @@ class HomeFragment : Fragment() {
                 }
                 dataList.add(map)
                 imageDataList.add(imageMap)
-            }
+            /*}
             else {
                 map["id"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_ID))
 
                 map["personName"] =
                     cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_NAME))
+
                 map["personImage"] =
                         cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_FETCHED_IMAGE))
+
                 map["location"] = cursor.getString(cursor.getColumnIndex(PeopleDBHelper.COLUMN_LOCATION))
                 imageMap["personImage"] = ByteArray(0)
                 imageDataList.add(imageMap)
                 dataList.add(map)
-            }
+            }*/
             cursor.moveToNext()
         }
         val recyclerView = activity?.findViewById<RecyclerView>(R.id.peopleRecyclerView)

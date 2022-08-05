@@ -9,7 +9,7 @@ class AutoStart : BroadcastReceiver() {
     var alarm = AppWidgetAlarm()
     override fun onReceive(context: Context?, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-           // alarm.setAlarm(context!!)
+            //alarm.setAlarm(context!!)
         }
     }
 }

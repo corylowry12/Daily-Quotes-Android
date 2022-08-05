@@ -19,6 +19,7 @@ import com.cory.dailyquotes.DB.PeopleDBHelper
 import com.cory.dailyquotes.DB.QuotesDBHelper
 import com.cory.dailyquotes.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
+@OptIn(DelicateCoroutinesApi::class)
 class FetchQuotesAdapter(
     val context: Context,
     private val dataList: ArrayList<HashMap<String, String>>
@@ -37,7 +39,7 @@ class FetchQuotesAdapter(
     private inner class ViewHolder constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var name = itemView.findViewById<TextView>(R.id.row_person_name)!!
-        var personImage = itemView.findViewById<ImageView>(R.id.personImage)
+        val personImage = itemView.findViewById<ImageView>(R.id.personImage)!!
 
         @SuppressLint("Range")
         fun bind(position: Int) {
@@ -108,7 +110,8 @@ class FetchQuotesAdapter(
                                 PeopleDBHelper(context, null).insertRow(
                                     dataItem["a"].toString(),
                                     "",
-                                    image2
+                                    image2,
+                                    "internet"
                                 )
                                 QuotesDBHelper(
                                     context,
@@ -125,7 +128,8 @@ class FetchQuotesAdapter(
                                 PeopleDBHelper(context, null).insertRow(
                                     dataItem["a"].toString(),
                                     "",
-                                    ByteArray(0)
+                                    ByteArray(0),
+                                    "internet"
                                 )
                                 QuotesDBHelper(
                                     context,

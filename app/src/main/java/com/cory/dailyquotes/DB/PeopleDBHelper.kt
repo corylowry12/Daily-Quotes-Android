@@ -59,13 +59,14 @@ class PeopleDBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
     fun insertRow(
         personName: String,
         personBio: String,
-        personImage: ByteArray
+        personImage: ByteArray,
+        location: String
     ) {
         val values = ContentValues()
         values.put(COLUMN_NAME, personName)
         values.put(COLUMN_BIO, personBio)
         values.put(COLUMN_IMAGE, personImage)
-        values.put(COLUMN_LOCATION, "entered")
+        values.put(COLUMN_LOCATION, location)
 
         val db = this.writableDatabase
         db.insert(TABLE_NAME, null, values)
