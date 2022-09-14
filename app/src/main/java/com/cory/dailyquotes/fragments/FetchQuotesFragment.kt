@@ -42,11 +42,6 @@ class FetchQuotesFragment : Fragment() {
     private val dataList = ArrayList<HashMap<String, String>>()
     val filteredDataList = ArrayList<HashMap<String, String>>()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -285,7 +280,7 @@ class FetchQuotesFragment : Fragment() {
         return false
     }
 
-    fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities =
